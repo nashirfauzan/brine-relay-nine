@@ -14,12 +14,12 @@ export function createInput(canvas, onLockChange) {
   window.addEventListener('keyup', (event) => setKey(event, false));
   window.addEventListener('blur', () => keys.clear());
   window.addEventListener('mousemove', (event) => {
-    if (!state.locked) return;
+    if (!state.locked && !window.__brinePlaytest) return;
     state.lookX += event.movementX;
     state.lookY += event.movementY;
   });
   window.addEventListener('mousedown', (event) => {
-    if (state.locked && event.button === 0) state.firing = true;
+    if ((state.locked || window.__brinePlaytest) && event.button === 0) state.firing = true;
   });
   window.addEventListener('mouseup', (event) => {
     if (event.button === 0) state.firing = false;

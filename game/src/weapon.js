@@ -62,7 +62,12 @@ export function createWeapon(camera) {
   }
 
   return {
+    root: model,
     state,
+    recoil(pitchKick, yawKick) {
+      state.kick = Math.max(state.kick, pitchKick * 3);
+      model.rotation.y += yawKick;
+    },
     step,
     ready() {
       return state.mag > 0 && state.cooldown === 0 && state.reloadLeft === 0;
