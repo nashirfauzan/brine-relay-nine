@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Greybox Range: a three.js FPS starter</title>
+<title>BRINE: RELAY NINE</title>
 <style>
   /* Look plan: canvas, surface, hairline, ink, muted and one accent. Every colour below is one of the six. */
   :root {
@@ -139,36 +139,14 @@
     text-align: center;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    #hitmarker, #play { transition-duration: 0.01ms; }
-  }
+  .brand{position:fixed;left:22px;top:20px;font:600 12px ui-monospace,monospace;letter-spacing:2px}.brand span{color:var(--accent)}.top{position:fixed;top:18px;left:50%;transform:translateX(-50%);display:flex;gap:24px;align-items:center;background:#101b1bcc;border:1px solid var(--hairline);padding:8px 16px;min-width:290px;justify-content:center}.top strong{font:600 18px ui-monospace,monospace}.top .score{color:var(--accent)}.objective{position:fixed;top:72px;left:50%;transform:translateX(-50%);padding:5px 12px;background:#071315bb;color:var(--accent);font:11px ui-monospace,monospace;letter-spacing:1px;white-space:nowrap}.bottom{position:fixed;bottom:20px;left:22px;right:22px;display:flex;align-items:end;justify-content:space-between;text-shadow:0 2px 5px #000}.stats{display:flex;gap:20px;align-items:end}.stat label{display:block;color:var(--muted);font:10px ui-monospace,monospace;letter-spacing:1px}.stat b{font:600 26px ui-monospace,monospace}.health b{color:#63c8b2}#ammo{position:static;font:600 34px ui-monospace,monospace;letter-spacing:0}#ammo small{font-size:15px;color:var(--muted)}.hint{position:fixed;right:22px;bottom:22px;color:#fffe;text-align:right;font:11px ui-monospace,monospace;text-shadow:0 1px 4px #000}.banner,.buy{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%);width:min(480px,calc(100% - 28px));background:#0a1515e8;border:1px solid var(--hairline);padding:22px 26px;pointer-events:auto}.banner[hidden],.buy[hidden]{display:none}.banner h1{font-size:28px;letter-spacing:2px;margin:0 0 6px}.banner p,.buy p{margin:0 0 16px;color:var(--muted)}.banner button,.buy button{font:600 13px ui-monospace,monospace;color:#141a17;background:var(--accent);border:0;padding:10px 16px;cursor:pointer}.buy{width:min(560px,calc(100% - 28px))}.buy h2{margin:0 0 4px;font:600 18px ui-monospace,monospace}.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.items button{display:flex;justify-content:space-between;background:#1b2b2b;border:1px solid var(--hairline);color:var(--ink);padding:10px;cursor:pointer;text-align:left}.items button b{color:var(--accent)}.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#071313dd;padding:8px 12px;color:var(--accent);font:12px ui-monospace,monospace}.toast[hidden]{display:none}.pause{position:fixed;right:22px;top:62px;color:#fff9;font:10px ui-monospace,monospace}@media(max-width:600px){.brand{left:10px;top:10px}.top{top:10px;gap:12px;min-width:230px;padding:6px 10px}.bottom{left:12px;right:12px;bottom:12px}.stats{gap:10px}.stat b{font-size:20px}.hint{display:none}.items{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
 <div id="game"></div>
 
-<div id="hud" aria-hidden="true">
-  <div id="crosshair"><i></i><i></i><i></i><i></i></div>
-  <div id="hitmarker"><i></i><i></i><i></i><i></i></div>
-  <div id="ammo"><span id="ammo-mag">30</span><span id="ammo-reserve">/ 90</span></div>
-  <div id="score">Score <b id="score-value">0</b></div>
-</div>
-
-<div id="overlay" class="overlay">
-  <section class="panel" role="dialog" aria-modal="true" aria-labelledby="overlay-title">
-    <h1 id="overlay-title">Greybox Range</h1>
-    <p id="overlay-copy">A plain room, one rifle and four targets. Click to play.</p>
-    <button id="play" type="button">Click to play</button>
-    <ul class="keys">
-      <li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</li>
-      <li><kbd>Mouse</kbd> Look</li>
-      <li><kbd>Click</kbd> Fire</li>
-      <li><kbd>R</kbd> Reload</li>
-      <li><kbd>Ctrl</kbd> Crouch</li>
-      <li><kbd>Space</kbd> Jump</li>
-    </ul>
-  </section>
-</div>
+<div id="hud" aria-hidden="true"><div class="brand">BRINE <span>///</span> RELAY NINE</div><div class="top"><strong id="phase">BUY</strong><strong id="clock">00:12</strong><strong class="score"><span id="blue">0</span> : <span id="red">0</span></strong></div><div class="objective" id="objective">BUY PHASE · SELECT LOADOUT</div><div id="crosshair"><i></i><i></i><i></i><i></i></div><div class="bottom"><div class="stats"><div class="stat health"><label>VITALS</label><b id="health">100</b></div><div class="stat"><label>PLATES</label><b id="armor">50</b></div><div class="stat"><label>CREDITS</label><b id="money">$1800</b></div><div class="stat"><label>TEAM</label><b id="alive">3v3</b></div></div><div id="ammo">12 <small>/ 48</small></div></div><div class="hint">WASD MOVE · SHIFT SPRINT · CTRL CROUCH<br>R RELOAD · 1/2/3 WEAPON · E INTERACT · B BUY · G SMOKE · ESC PAUSE</div><div class="pause" id="pauseText"></div><section class="banner" id="banner"><h1>RELAY NINE</h1><p>Breakwater station · 3v3 tactical extraction denial</p><button id="play">DEPLOY · ENTER</button><p style="margin:12px 0 0;font:11px ui-monospace,monospace">Plant the signal charge at A or B. Defenders can interrupt or defuse.</p></section><section class="buy" id="buy" hidden><h2>FIELD REQUISITION</h2><p>Purchase before deployment · credits persist between rounds</p><div class="items" id="buyItems"></div><p style="margin:12px 0 0">B close · click an item to buy</p></section><div class="toast" id="toast" hidden></div></div>
 
 <script type="importmap">
 {
@@ -177,6 +155,6 @@
   }
 }
 </script>
-<script type="module" src="./src/main.js"></script>
+<script type="module" src="./src/game.js"></script>
 </body>
 </html>
